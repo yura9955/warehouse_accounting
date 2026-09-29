@@ -1,17 +1,28 @@
+from __future__ import annotations
 import json
 import re
 from dataclasses import dataclass
-from normalization import deterministic_parser as dp
-from normalization import regex_parser as rg
+from . import deterministic_parser as dp
+from . import regex_parser as rg
 
-def normalize_movement(text: str, catalog: Catalog, dicts: DataDictionaries) -> dict:
-    result = {"date": None, "sku": None, "location": None, "operation": None,
-              "qty": None, "unit": None, "batch": None, "doc_no": None}
 
-    result = rg.regex(text, result, dicts)  # Поиск ифнорамации в предлоежние
+def normalize_movement(text: str) -> dict:
+    result = {"date": None,
+              "sku": None,
+              "location": None,
+              "operation": None,
+              "qty": None,
+              "unit": None,
+              "batch": None,
+              "doc_no": None}
+
+    catalog = Catalog.load("data/catalog.json")
+    data_dict = DataDictionaries.load("data/dictionaries.json")
+
+    result = rg.regex(text, result, data_dict)  # Поиск ифнорамации в предлоежние
     if result["sku"] is None:
         result["sku"] = find_sku_by_name(text, catalog)  #Поиск name из справочника
-    result = dp.Deterministic_parser(result, dicts, catalog)  # Преведение в единый вид
+    result = dp.Deterministic_parser(result, data_dict, catalog)  # Преведение в единый вид
 
     return result
 

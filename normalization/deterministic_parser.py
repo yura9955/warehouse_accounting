@@ -3,6 +3,7 @@
 операции/локации/SKU → значения из dictionaries.json,
 количества → число в базовой единице позиции из catalog.json.
 """
+from __future__ import annotations
 
 import re
 

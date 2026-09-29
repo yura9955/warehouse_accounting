@@ -2,7 +2,9 @@
 Извлечение сырых фрагментов из текста регулярками.
 Возвращает то, что найдено без нормализации.
 """
+from __future__ import annotations
 import re
+
 
 def regex(text: str, result: dict, dicts_config: DataDictionaries) -> dict:
     clean_text = text.lower()
@@ -18,7 +20,7 @@ def regex(text: str, result: dict, dicts_config: DataDictionaries) -> dict:
 
 
 def regex_data(text: str, dicts_config: dict) -> str:
-    sorted_months = sorted(dicts_config.keys(), key=len, reverse=True)
+    sorted_months = sorted(dicts_config.keys(), key = len, reverse = True)
     months_part = "|".join(re.escape(k) for k in sorted_months)
 
     date_pattern = re.compile(r"\b\d{1,4}[-./ ](" + months_part + r"|\d{1,2})[-./ ]\d{2,4}\b")
@@ -29,7 +31,7 @@ def regex_data(text: str, dicts_config: dict) -> str:
 
 
 def regex_sku_location_operation(text: str, dicts_config: dict) -> str:
-    sorted_str = sorted(dicts_config.keys(), key=len, reverse=True)
+    sorted_str = sorted(dicts_config.keys(), key = len, reverse = True)
     fin_str = "|".join(re.escape(s) for s in sorted_str)
 
     pattern = re.compile(rf"\b({fin_str})\b")
@@ -40,10 +42,10 @@ def regex_sku_location_operation(text: str, dicts_config: dict) -> str:
 
 
 def regex_qty_units(text: str, dicts_config_qty: dict, dicts_config_units: dict) -> str:
-    sorted_qty = sorted(dicts_config_qty.keys(), key=len, reverse=True)
+    sorted_qty = sorted(dicts_config_qty.keys(), key = len, reverse = True)
     qty_str = "|".join(re.escape(u) for u in sorted_qty)
 
-    sorted_units = sorted(dicts_config_units.keys(), key=len, reverse=True)
+    sorted_units = sorted(dicts_config_units.keys(), key = len, reverse = True)
     units_str = "|".join(re.escape(u) for u in sorted_units)
 
     qty_pattern = rf"(-?\d+(?:[.,]\d+)?)\s*({units_str})"
@@ -56,7 +58,7 @@ def regex_qty_units(text: str, dicts_config_qty: dict, dicts_config_units: dict)
 
 
 def regex_batch_and_doc_no(text: str, dicts_config: dict) -> str:
-    sorted_batch = sorted(dicts_config.keys(), key=len, reverse=True)
+    sorted_batch = sorted(dicts_config.keys(), key = len, reverse = True)
     batch_str = "|".join(re.escape(b) for b in sorted_batch)
 
     batch_pattern = re.compile(rf"\b(?:{batch_str})[-_ ]?[a-z0-9][a-z0-9-]*\b")
