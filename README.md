@@ -30,7 +30,11 @@ python main.py
 
 ## Тесты
 
-pytest -v
+    pytest -v
+
+Если команда `pytest` не найдена, используйте:
+
+    python -m pytest -v
 
 ## Архитектура
 
